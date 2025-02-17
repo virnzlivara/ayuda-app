@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
- 
+
+export const Camera = () => {
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
