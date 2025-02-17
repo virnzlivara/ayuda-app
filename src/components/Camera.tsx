@@ -1,43 +1,29 @@
-import { isDesktop } from '@/common/utils';
 import { useRef, useState, useEffect } from 'react';
-// type hasPermissionProps = {
-//   hasPermission: boolean;
-// }
-const CameraCapture = () => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);  // Ref to display the video feed
-  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Ref to the canvas for taking photos
-  // const [hasPermission, setHasPermission] = useState<boolean>(false); // State to track camera permission
-  const [capturedImage, setCapturedImage] = useState<string | null>(null); // State to store captured image
+
+const CameraCapture: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null); // Ref to display video
+  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Ref to the canvas
+  const [hasPermission, setHasPermission] = useState<boolean>(false); // State for permission
+  const [capturedImage, setCapturedImage] = useState<string | null>(null); // Captured image
 
   useEffect(() => {
-    // Function to access the camera and start the video stream
+    // Function to access camera and start video stream
     const startCamera = async () => {
-
-      let constraints: MediaStreamConstraints = {
-        video: {
-          facingMode: { exact: 'environment' }, // Request the back camera
-        },
-      };
-
-      if (isDesktop()) {
-        constraints = { video: true }
-      }
-
-      
       try {
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
-          videoRef.current.srcObject = stream; 
+          videoRef.current.srcObject = stream;
+          setHasPermission(true);
         }
       } catch (error) {
-        console.error('Error accessing webcam: ', error); 
+        console.error('Error accessing webcam:', error);
+        setHasPermission(false);
       }
     };
 
     startCamera();
 
-    // Cleanup: stop video tracks when the component unmounts
+    // Cleanup function to stop video stream when the component unmounts
     return () => {
       if (videoRef.current?.srcObject) {
         const stream = videoRef.current.srcObject as MediaStream;
@@ -46,21 +32,21 @@ const CameraCapture = () => {
     };
   }, []);
 
-  // Take a photo and store it in capturedImage state
+  // Capture photo when button is clicked
   const takePhoto = () => {
     if (canvasRef.current && videoRef.current) {
       const context = canvasRef.current.getContext('2d');
       if (context) {
-        // Draw the video frame on the canvas
+        // Draw the current video frame to the canvas
         context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-        // Convert the canvas image to a data URL (base64)
+        // Convert the canvas to a data URL (base64 image)
         const dataUrl = canvasRef.current.toDataURL('image/png');
         setCapturedImage(dataUrl);
       }
     }
   };
 
-  // Optionally: Function to save the image or share it
+  // Optionally: Save the captured image
   const saveImage = () => {
     if (capturedImage) {
       const link = document.createElement('a');
@@ -71,25 +57,43 @@ const CameraCapture = () => {
   };
 
   return (
-    <div style={{ textAlign: 'center', padding: '20px' }}>
+    <div style={{ textAlign: 'center', position: 'relative', padding: '20px' }}>
       <h1>Camera Capture</h1>
 
        
         <>
-          {/* Video preview */}
+          {/* Video element to show the live feed */}
           <video
             ref={videoRef}
             autoPlay
             width="320"
             height="240"
-            style={{ border: '2px solid black' }}
+            style={{
+              border: '2px solid black',
+              position: 'relative',
+              zIndex: 1, // Ensure video is below the button
+            }}
           />
-          <br />
-          <button onClick={takePhoto} style={{ padding: '10px 20px', marginTop: '10px' }}>
-            Take Photo
+          {/* Capture button overlaid on top of the video */}
+          <button
+            onClick={takePhoto}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              padding: '15px 30px',
+              backgroundColor: 'rgba(255, 255, 255, 0.6)',
+              border: 'none',
+              fontSize: '16px',
+              cursor: 'pointer',
+              zIndex: 2, // Make sure the button is on top of the video
+            }}
+          >
+            Capture
           </button>
 
-          {/* Canvas (hidden, used for capturing image) */}
+          {/* Hidden canvas element used for taking the photo */}
           <canvas
             ref={canvasRef}
             width="320"
@@ -97,7 +101,7 @@ const CameraCapture = () => {
             style={{ display: 'none' }}
           />
 
-          {/* Show captured image preview */}
+          {/* Show the captured image preview */}
           {capturedImage && (
             <div style={{ marginTop: '20px' }}>
               <h3>Captured Image</h3>
@@ -109,7 +113,7 @@ const CameraCapture = () => {
             </div>
           )}
         </>
-      
+       
     </div>
   );
 };
