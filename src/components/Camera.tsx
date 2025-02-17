@@ -1,3 +1,4 @@
+import { isDesktop } from '@/common/utils';
 import React, { useEffect, useRef, useState } from 'react';
 
 export const Camera: React.FC = () => {
@@ -9,11 +10,15 @@ export const Camera: React.FC = () => {
   useEffect(() => {
     // Check if the browser supports getUserMedia
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints: MediaStreamConstraints = {
+      let constraints: MediaStreamConstraints = {
         video: {
           facingMode: { exact: 'environment' }, // Request the back camera
         },
       };
+
+      if (isDesktop()) {
+        constraints = { video: true }
+      }
 
       navigator.mediaDevices
         .getUserMedia(constraints)
