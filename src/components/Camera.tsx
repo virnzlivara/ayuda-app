@@ -1,4 +1,5 @@
 import { isDesktop } from '@/common/utils';
+import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 // import Image from 'next/image';
 export const Camera: React.FC = () => {
@@ -70,7 +71,7 @@ debugger;
           {photo && (
             <div>
               <h2>Captured Photo:</h2>
-              <img src={photo} alt="Captured" />
+              <Image src={photo} alt="Captured" width={200} height={200} quality={0.3}/>
             </div>
           )}
           CANVAS
