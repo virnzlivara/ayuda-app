@@ -1,9 +1,9 @@
 import { isDesktop } from '@/common/utils';
 import { useRef, useState, useEffect } from 'react';
-type hasPermissionProps = {
-  hasPermission: boolean;
-}
-const CameraCapture = ({hasPermission}: hasPermissionProps) => {
+// type hasPermissionProps = {
+//   hasPermission: boolean;
+// }
+const CameraCapture = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);  // Ref to display the video feed
   const canvasRef = useRef<HTMLCanvasElement | null>(null); // Ref to the canvas for taking photos
   // const [hasPermission, setHasPermission] = useState<boolean>(false); // State to track camera permission
