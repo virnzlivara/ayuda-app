@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-
+import Image from 'next/image';
 export const Camera = () => {
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
   const videoRef = useRef(null);
@@ -32,6 +32,7 @@ export const Camera = () => {
   }, []);
 
   const capturePhoto = () => {
+   
     const canvas = canvasRef.current;
     const video = videoRef.current;
 
@@ -47,6 +48,7 @@ export const Camera = () => {
       // Convert the canvas content to an image (base64 format)
       const imageData = canvas.toDataURL('image/png');
       setPhoto(imageData); // Store the photo
+      console.log("photo", imageData)
     }
   };
 
@@ -60,13 +62,15 @@ export const Camera = () => {
           {photo && (
             <div>
               <h2>Captured Photo:</h2>
-              <img src={photo} alt="Captured" />
+              <Image src={photo} alt="Captured" />
+              <Image src={photo} alt="Captured" width={200} height={200} quality={0.3}/>
             </div>
           )}
           <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
         </>
       ) : (
         <p>No access to the camera. Please enable permissions.</p>
+        
       )}
     </div>
   );
