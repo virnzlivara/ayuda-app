@@ -12,11 +12,11 @@ const CameraCapture: React.FC = () => {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          setHasPermission(true);
+          // setHasPermission(true);
         }
       } catch (error) {
         console.error('Error accessing webcam:', error);
-        setHasPermission(false);
+        // setHasPermission(false);
       }
     };
 
