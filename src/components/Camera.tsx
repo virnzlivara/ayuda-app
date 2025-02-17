@@ -7,8 +7,14 @@ export const Camera = () => {
   useEffect(() => {
     // Check if the browser supports getUserMedia
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        const constraints = {
+            video: {
+              facingMode: { exact: 'environment' }, // Request the back camera (environment)
+            },
+          };
+
       navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia(constraints)
         .then((stream) => {
           // If access granted, set the video stream to the video element
           if (videoRef.current) {
