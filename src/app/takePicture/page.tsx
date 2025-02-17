@@ -1,5 +1,5 @@
 "use client";
-import { Camera } from '@/components/Camera'
+import CameraCapture from '@/components/Camera'
 // import { PhotoCapture } from '@/components/PhotoCapture'
 import React from 'react'
 
@@ -7,7 +7,7 @@ const page = () => {
   return (
     <div>
       {/* <PhotoCapture/> */}
-      <Camera/>
+      <CameraCapture/>
     </div>
   )
 }

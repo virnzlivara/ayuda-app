@@ -1,16 +1,16 @@
 import { isDesktop } from '@/common/utils';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-// import Image from 'next/image';
-export const Camera: React.FC = () => {
-  // const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [photo, setPhoto] = useState<string | null>(null);
+import { useRef, useState, useEffect } from 'react';
+
+const CameraCapture: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);  // Ref to display the video feed
+  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Ref to the canvas for taking photos
+  const [hasPermission, setHasPermission] = useState<boolean>(false); // State to track camera permission
+  const [capturedImage, setCapturedImage] = useState<string | null>(null); // State to store captured image
 
   useEffect(() => {
-    // Check if the browser supports getUserMedia
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Function to access the camera and start the video stream
+    const startCamera = async () => {
+
       let constraints: MediaStreamConstraints = {
         video: {
           facingMode: { exact: 'environment' }, // Request the back camera
@@ -21,70 +21,97 @@ export const Camera: React.FC = () => {
         constraints = { video: true }
       }
 
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then((stream: MediaStream) => {
-          // If access granted, set the video stream to the video element
-          if (videoRef.current) {
-            debugger;
-            videoRef.current.srcObject = stream;
-            // setHasCameraPermission(true);
-          }
-        })
-        .catch((error: Error) => {
-          console.error('Error accessing camera:', error);
-          // setHasCameraPermission(false);
-        });
-    }
+      
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          setHasPermission(true);
+        }
+      } catch (error) {
+        console.error('Error accessing webcam: ', error);
+        setHasPermission(false);
+      }
+    };
+
+    startCamera();
+
+    // Cleanup: stop video tracks when the component unmounts
+    return () => {
+      if (videoRef.current?.srcObject) {
+        const stream = videoRef.current.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
   }, []);
 
-  const capturePhoto = () => {
-    const canvas = canvasRef.current;
-    const video = videoRef.current;
-debugger;
-    if (canvas && video) {
-      // Set canvas size to match video dimensions
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      // Draw the current video frame to the canvas
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Convert the canvas content to an image (base64 format)
-        const imageData = canvas.toDataURL('image/png');
-        setPhoto(imageData); // Store the photo
+  // Take a photo and store it in capturedImage state
+  const takePhoto = () => {
+    if (canvasRef.current && videoRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      if (context) {
+        // Draw the video frame on the canvas
+        context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+        // Convert the canvas image to a data URL (base64)
+        const dataUrl = canvasRef.current.toDataURL('image/png');
+        setCapturedImage(dataUrl);
       }
     }
   };
 
+  // Optionally: Function to save the image or share it
+  const saveImage = () => {
+    if (capturedImage) {
+      const link = document.createElement('a');
+      link.href = capturedImage;
+      link.download = 'captured-image.png';
+      link.click();
+    }
+  };
+
   return (
-    <div>
-      <h1>Take a Photo</h1>
-       <video ref={videoRef} autoPlay width="100%" height="auto"></video> 
+    <div style={{ textAlign: 'center', padding: '20px' }}>
+      <h1>Camera Capture</h1>
+
        
-      {/* {hasCameraPermission ? (
-        <> */}
-          {/* <video ref={videoRef} autoPlay width="100%" height="auto"></video> */}
-          <button onClick={capturePhoto}>Capture Photo</button>
-          {photo && (
-            <div>
-              <h2>Captured Photo:</h2>
-              <Image src={photo} alt="Captured" width={200} height={200} quality={0.3}/>
+        <>
+          {/* Video preview */}
+          <video
+            ref={videoRef}
+            autoPlay
+            width="320"
+            height="240"
+            style={{ border: '2px solid black' }}
+          />
+          <br />
+          <button onClick={takePhoto} style={{ padding: '10px 20px', marginTop: '10px' }}>
+            Take Photo
+          </button>
+
+          {/* Canvas (hidden, used for capturing image) */}
+          <canvas
+            ref={canvasRef}
+            width="320"
+            height="240"
+            style={{ display: 'none' }}
+          />
+
+          {/* Show captured image preview */}
+          {capturedImage && (
+            <div style={{ marginTop: '20px' }}>
+              <h3>Captured Image</h3>
+              <img src={capturedImage} alt="Captured" style={{ maxWidth: '100%' }} />
+              <br />
+              <button onClick={saveImage} style={{ marginTop: '10px' }}>
+                Save Image
+              </button>
             </div>
           )}
-          CANVAS
-          <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
-PHOTOS
-          {/* {photo && <Image src={photo} alt="Captured" width={200} height={200} quality={0.3}/>} */}
-        {/* </>
-      ) : (
-        <p>No access to the camera. Please enable permissions.</p>
-      )} */}
-
-<textarea value={photo ?? ""} readOnly rows={10} style={{ width: 200 }} />
+        </>
+      
     </div>
   );
 };
- 
+
+export default CameraCapture;
