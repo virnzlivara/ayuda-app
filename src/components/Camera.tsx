@@ -1,6 +1,6 @@
 import { isDesktop } from '@/common/utils';
 import React, { useEffect, useRef, useState } from 'react';
-
+// import Image from 'next/image';
 export const Camera: React.FC = () => {
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -39,7 +39,7 @@ export const Camera: React.FC = () => {
   const capturePhoto = () => {
     const canvas = canvasRef.current;
     const video = videoRef.current;
-
+debugger;
     if (canvas && video) {
       // Set canvas size to match video dimensions
       canvas.width = video.videoWidth;
@@ -60,9 +60,10 @@ export const Camera: React.FC = () => {
   return (
     <div>
       <h1>Take a Photo</h1>
-      {hasCameraPermission ? (
-        <>
-          <video ref={videoRef} autoPlay width="100%" height="auto"></video>
+       <video ref={videoRef} autoPlay width="100%" height="auto"></video>
+      {/* {hasCameraPermission ? (
+        <> */}
+          {/* <video ref={videoRef} autoPlay width="100%" height="auto"></video> */}
           <button onClick={capturePhoto}>Capture Photo</button>
           {photo && (
             <div>
@@ -70,11 +71,16 @@ export const Camera: React.FC = () => {
               <img src={photo} alt="Captured" />
             </div>
           )}
+          CANVAS
           <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
-        </>
+PHOTOS
+          {/* {photo && <Image src={photo} alt="Captured" width={200} height={200} quality={0.3}/>} */}
+        {/* </>
       ) : (
         <p>No access to the camera. Please enable permissions.</p>
-      )}
+      )} */}
+
+<textarea value={photo ?? ""} readOnly rows={10} style={{ width: 200 }} />
     </div>
   );
 };
