@@ -2,7 +2,7 @@ import { isDesktop } from '@/common/utils';
 import React, { useEffect, useRef, useState } from 'react';
 // import Image from 'next/image';
 export const Camera: React.FC = () => {
-  const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false);
+  // const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);
@@ -25,13 +25,14 @@ export const Camera: React.FC = () => {
         .then((stream: MediaStream) => {
           // If access granted, set the video stream to the video element
           if (videoRef.current) {
+            debugger;
             videoRef.current.srcObject = stream;
-            setHasCameraPermission(true);
+            // setHasCameraPermission(true);
           }
         })
         .catch((error: Error) => {
           console.error('Error accessing camera:', error);
-          setHasCameraPermission(false);
+          // setHasCameraPermission(false);
         });
     }
   }, []);
@@ -60,7 +61,8 @@ debugger;
   return (
     <div>
       <h1>Take a Photo</h1>
-       <video ref={videoRef} autoPlay width="100%" height="auto"></video>
+       <video ref={videoRef} autoPlay width="100%" height="auto"></video> 
+       
       {/* {hasCameraPermission ? (
         <> */}
           {/* <video ref={videoRef} autoPlay width="100%" height="auto"></video> */}
