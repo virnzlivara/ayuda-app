@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-export const Camera = () => {
-  const [hasCameraPermission, setHasCameraPermission] = useState(false);
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const [photo, setPhoto] = useState(null);
+
+export const Camera: React.FC = () => {
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean>(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [photo, setPhoto] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if the browser supports getUserMedia
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const constraints = {
+      const constraints: MediaStreamConstraints = {
         video: {
           facingMode: { exact: 'environment' }, // Request the back camera
         },
@@ -17,14 +17,14 @@ export const Camera = () => {
 
       navigator.mediaDevices
         .getUserMedia(constraints)
-        .then((stream) => {
+        .then((stream: MediaStream) => {
           // If access granted, set the video stream to the video element
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
             setHasCameraPermission(true);
           }
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           console.error('Error accessing camera:', error);
           setHasCameraPermission(false);
         });
@@ -32,7 +32,6 @@ export const Camera = () => {
   }, []);
 
   const capturePhoto = () => {
-   
     const canvas = canvasRef.current;
     const video = videoRef.current;
 
@@ -43,12 +42,13 @@ export const Camera = () => {
 
       // Draw the current video frame to the canvas
       const ctx = canvas.getContext('2d');
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      if (ctx) {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // Convert the canvas content to an image (base64 format)
-      const imageData = canvas.toDataURL('image/png');
-      setPhoto(imageData); // Store the photo
-      console.log("photo", imageData)
+        // Convert the canvas content to an image (base64 format)
+        const imageData = canvas.toDataURL('image/png');
+        setPhoto(imageData); // Store the photo
+      }
     }
   };
 
@@ -61,16 +61,16 @@ export const Camera = () => {
           <button onClick={capturePhoto}>Capture Photo</button>
           {photo && (
             <div>
-              <h2>Captured Photo:</h2> 
-              <Image src={photo} alt="Captured" width={200} height={200} quality={0.3}/>
+              <h2>Captured Photo:</h2>
+              <img src={photo} alt="Captured" />
             </div>
           )}
           <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
         </>
       ) : (
         <p>No access to the camera. Please enable permissions.</p>
-        
       )}
     </div>
   );
-}; 
+};
+ 
