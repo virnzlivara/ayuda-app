@@ -1,10 +1,12 @@
 import { isDesktop } from '@/common/utils';
 import { useRef, useState, useEffect } from 'react';
-
-const CameraCapture: React.FC = () => {
+type hasPermissionProps = {
+  hasPermission: boolean;
+}
+const CameraCapture = ({hasPermission}: hasPermissionProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);  // Ref to display the video feed
   const canvasRef = useRef<HTMLCanvasElement | null>(null); // Ref to the canvas for taking photos
-  const [hasPermission, setHasPermission] = useState<boolean>(false); // State to track camera permission
+  // const [hasPermission, setHasPermission] = useState<boolean>(false); // State to track camera permission
   const [capturedImage, setCapturedImage] = useState<string | null>(null); // State to store captured image
 
   useEffect(() => {
@@ -26,12 +28,10 @@ const CameraCapture: React.FC = () => {
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
         if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          setHasPermission(true);
+          videoRef.current.srcObject = stream; 
         }
       } catch (error) {
-        console.error('Error accessing webcam: ', error);
-        setHasPermission(false);
+        console.error('Error accessing webcam: ', error); 
       }
     };
 
