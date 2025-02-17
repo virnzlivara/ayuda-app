@@ -2,8 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 
 const CameraCapture: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null); // Ref to display video
-  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Ref to the canvas
-  const [hasPermission, setHasPermission] = useState<boolean>(false); // State for permission
+  const canvasRef = useRef<HTMLCanvasElement | null>(null); // Ref to the canvas 
   const [capturedImage, setCapturedImage] = useState<string | null>(null); // Captured image
 
   useEffect(() => {
