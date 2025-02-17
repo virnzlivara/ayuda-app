@@ -2,14 +2,16 @@ import { useState, useRef } from 'react';
 import jsQR from 'jsqr'; // Import the jsQR library
 
 const Camera = () => {
-  const [file, setFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null); // Preview image URL
-  const [qrCodeData, setQrCodeData] = useState(null); // Store decoded QR code data
-  const fileInputRef = useRef(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null); // Preview image URL
+  const [qrCodeData, setQrCodeData] = useState<string | null>(null); // Store decoded QR code data
+  
+  // Explicitly type the ref to HTMLInputElement
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Handle file change
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
 
@@ -28,25 +30,27 @@ const Camera = () => {
   };
 
   // Decode QR code from the image
-  const decodeQRCode = (imageUrl) => {
+  const decodeQRCode = (imageUrl: string) => {
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0, img.width, img.height);
+      if (ctx) {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
 
-      // Get image data from canvas
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // Get image data from canvas
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-      // Try to decode the QR code from the image data
-      const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+        // Try to decode the QR code from the image data
+        const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
 
-      if (qrCode) {
-        setQrCodeData(qrCode.data); // Set the QR code data if it's valid
-      } else {
-        setQrCodeData(null); // Reset if no QR code is found
+        if (qrCode) {
+          setQrCodeData(qrCode.data); // Set the QR code data if it's valid
+        } else {
+          setQrCodeData(null); // Reset if no QR code is found
+        }
       }
     };
     img.src = imageUrl;
@@ -54,7 +58,10 @@ const Camera = () => {
 
   // Trigger file input when custom button is clicked
   const triggerFileInput = () => {
-    fileInputRef.current.click();
+    // Ensure fileInputRef.current is not null before trying to access it
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   // Handle file upload
