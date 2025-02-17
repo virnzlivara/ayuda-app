@@ -61,8 +61,7 @@ export const Camera = () => {
           <button onClick={capturePhoto}>Capture Photo</button>
           {photo && (
             <div>
-              <h2>Captured Photo:</h2>
-              <Image src={photo} alt="Captured" />
+              <h2>Captured Photo:</h2> 
               <Image src={photo} alt="Captured" width={200} height={200} quality={0.3}/>
             </div>
           )}
