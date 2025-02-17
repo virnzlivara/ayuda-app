@@ -1,5 +1,5 @@
-"use client";
-import CameraCapture from '@/components/Camera'
+"use client"; 
+import { CameraCapture } from '@/components/CameraCapture';
 // import { PhotoCapture } from '@/components/PhotoCapture'
 import React from 'react'
 
