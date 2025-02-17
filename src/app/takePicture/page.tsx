@@ -1,6 +1,6 @@
 "use client";
 import { Camera } from '@/components/Camera'
-import { PhotoCapture } from '@/components/PhotoCapture'
+// import { PhotoCapture } from '@/components/PhotoCapture'
 import React from 'react'
 
 const page = () => {
