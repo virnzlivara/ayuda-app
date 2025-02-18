@@ -1,27 +1,13 @@
  "use client";
-import QRScanner from "@/components/Camera";
-import Camera from "@/components/CameraCapture";
-import Image from "next/image"; 
-import { useRouter } from "next/navigation";
-// import { useRouter } from "next/router";
+import Camera from "@/components/CameraCapture"; 
 
-export default function Home() {
-  const router = useRouter();
-  const capturePhoto = () =>{
-    router.push("/takePicture");
-  }
+export default function Home() { 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-      {/* <PhotoCapture/> */}
-      <div className='flex justify-between'>
-      <Camera  />
-      {/* <QRScanner/> */}
-        {/* <button onClick={tryAgain}>Try Again</button>
-        <button onClick={sendToEmail}>Send to Email</button> */}
-      </div>
-      </main>
-       
+    <div > 
+        <Camera  />
+       <footer className="flex justify-center">
+        Copyright © 2025
+       </footer>  
     </div>
   );
 }
