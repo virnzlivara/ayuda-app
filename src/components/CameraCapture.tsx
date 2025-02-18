@@ -128,20 +128,18 @@ const Camera = () => {
       {/* QR Code validation result */}
       {qrCodeData && (
         <div style={{ marginTop: '20px' }}>
-          <h4>QR Code Detected:</h4>
-          <p>Decoded Data: {qrCodeData}</p>
+          <h4>QR Code Detected.</h4>
+          {/* <p>Decoded Data: {qrCodeData}</p> */}
         </div>
       )}
 
       {/* No QR code found message */}
       {file && !qrCodeData && previewUrl && (
         <div style={{ marginTop: '20px' }}>
-          <p style={{ color: 'red' }}>No valid QR code found in this image.</p>
+          <p  >Are you sure you want to send this photo?</p>
         </div>
       )}
-
-      {/* Upload button */}
-      <button
+      {previewUrl && <button
         onClick={handleUpload}
         style={{
           padding: '10px 20px',
@@ -155,7 +153,9 @@ const Camera = () => {
         }}
       >
         Upload
-      </button>
+      </button>}
+      {/* Upload button */}
+     
     </div>
   );
 };
