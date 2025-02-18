@@ -85,8 +85,8 @@ const Camera = () => {
     }
    
   };
-const screenHeight = screen.height;
-const screenWidth = screen.width;
+const screenHeight = screen?.height;
+const screenWidth = screen?.width;
 
 useEffect(()=> {
   if (file && !qrCodeData && previewUrl){
