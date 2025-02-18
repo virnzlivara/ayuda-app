@@ -8,7 +8,8 @@ const Camera = () => {
   const [message, setMessage] = useState<string | null>(null);
   // Explicitly type the ref to HTMLInputElement
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
+  const [screenWidth, setScreenWidth] = useState(0);
+  const [screenHeight, setScreenHeight] = useState(0);
   // Handle file change
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -85,8 +86,14 @@ const Camera = () => {
     }
    
   };
-const screenHeight = screen?.height;
-const screenWidth = screen?.width;
+
+useEffect(() => {
+  // This will run only on the client-side
+  if (typeof window !== 'undefined' && window.screen) {
+    setScreenWidth(window.screen.width);
+    setScreenHeight(window.screen.height);
+  }
+}, []); 
 
 useEffect(()=> {
   if (file && !qrCodeData && previewUrl){
