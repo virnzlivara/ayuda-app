@@ -61,6 +61,7 @@ const Camera = () => {
   const triggerFileInput = () => {
     // Ensure fileInputRef.current is not null before trying to access it
     if (fileInputRef.current) {
+      setMessage("");
       fileInputRef.current.click();
     }
   };
@@ -72,7 +73,7 @@ const Camera = () => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const res = await fetch('/api/upload', {
+    const res = await fetch(process.env.END_POINT + '/api/upload', {
       method: 'POST',
       body: formData,
     });
