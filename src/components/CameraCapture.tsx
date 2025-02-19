@@ -79,7 +79,7 @@ const Camera = () => {
     const formData = new FormData();
     formData.append("file", file); 
     const res = await fetchWithTimeout(
-      process.env.NEXT_PUBLIC_END_POINT + API.upload ?? "",
+      process.env.NEXT_PUBLIC_END_POINT + API.upload,
       {
         method: "POST",
         body: formData,
