@@ -72,7 +72,7 @@ export const Modal = ({ type = "error", message, close }: ModalProps) => {
                   </h3>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      {message ?? "Something went wrong"}{" "}
+                      {message ?? "Something went wrong"}
                     </p>
                   </div>
                 </div>
