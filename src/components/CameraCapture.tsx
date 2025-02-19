@@ -122,8 +122,9 @@ const Camera = () => {
       />
       <div className="flex justify-between w-full">
         <button
-          className="bg-[#1b4198] py-4 px-4 text-2xl rounded-md"
+          className={`${!showLoading ? 'bg-[#1b4198] ': 'bg-[#939598]'}   py-4 px-4 text-2xl rounded-md`}
           onClick={triggerFileInput}
+          disabled={showLoading}
         >
           Choose a file
         </button>
