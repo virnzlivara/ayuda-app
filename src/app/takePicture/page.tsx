@@ -1,12 +1,10 @@
-"use client"; 
-import Camera from '@/components/CameraCapture'; 
+"use client";  
 import { QrScanner } from '@/components/QRScanner';
 import React from 'react' 
 
 const page = () => {
   return (
-    <div> 
-      {/* <Camera  /> */}
+    <div>  
       <QrScanner/>
     </div>
   )
