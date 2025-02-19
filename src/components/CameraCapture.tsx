@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import jsQR from "jsqr";  
+// import jsQR from "jsqr";  
 import { Modal } from "./Modal/Modal";
 import { Upload } from "./Upload/Upload";
 import { Preview } from "./Preview/Preview";
@@ -8,19 +8,18 @@ import { Loader } from "./Loader/Loader";
 import { API } from "@/common/api";
 import { ErrorType } from "./Modal/constants";
 import { fetchWithTimeout } from "@/common/services";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+ 
 
 const Camera = () => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null); // Preview image URL
-  const [qrCodeData, setQrCodeData] = useState<string | null>(null); // Store decoded QR code data
+  // const [qrCodeData, setQrCodeData] = useState<string | null>(null); // Store decoded QR code data
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<any>(ErrorType.error);
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [screenWidth, setScreenWidth] = useState(0);
-  const [screenHeight, setScreenHeight] = useState(0);
+  // const [screenWidth, setScreenWidth] = useState(0);
+  // const [screenHeight, setScreenHeight] = useState(0);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -33,7 +32,7 @@ const Camera = () => {
         decodeQRCode(url);
       } else {
         setPreviewUrl(null);
-        setQrCodeData(null);
+        // setQrCodeData(null);
       }
     }
   };
@@ -48,15 +47,15 @@ const Camera = () => {
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-        const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+        // const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
 
-        if (qrCode) {
-          setQrCodeData(qrCode.data);
-        } else {
-          setQrCodeData(null);
-        }
+        // if (qrCode) {
+        //   setQrCodeData(qrCode.data);
+        // } else {
+        //   setQrCodeData(null);
+        // }
       }
     };
     img.src = imageUrl;
@@ -97,12 +96,12 @@ const Camera = () => {
     setShowLoading(false);
   };
 
-  useEffect(() => { 
-    if (typeof window !== "undefined" && window.screen) {
-      setScreenWidth(window.screen.width);
-      setScreenHeight(window.screen.height);
-    }
-  }, []);
+  // useEffect(() => { 
+  //   if (typeof window !== "undefined" && window.screen) {
+  //     setScreenWidth(window.screen.width);
+  //     setScreenHeight(window.screen.height);
+  //   }
+  // }, []);
  
 
   return (
