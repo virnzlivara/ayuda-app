@@ -13,19 +13,19 @@ export const QrScanner = () => {
   const [qrCodeResult, setQrCodeResult] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const qrCodeRef = useRef<Html5Qrcode | null>(null);
-  const [isScanning, setIsScanning] = useState<boolean>(false);
+  const [, setIsScanning] = useState<boolean>(false);
   const [showLoading, setShowLoading] = useState<boolean>(false);
-  const [autoSend, setAutoSend] = useState<boolean>(false);
+  // const [autoSend, setAutoSend] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<string>(ErrorType.error);
   const router = useRouter(); 
  
 
-  const stopScanner = async () => {
-    if (qrCodeRef.current && isScanning) {
+  const stopScanner = async () => { 
+    if (qrCodeRef.current) {
       try {
-        await qrCodeRef.current.stop();
-        qrCodeRef.current.clear();
+        await qrCodeRef.current!.stop();
+        qrCodeRef.current.clear(); 
         setIsScanning(false);
         console.log("Scanner stopped");
       } catch (error) {
@@ -34,7 +34,7 @@ export const QrScanner = () => {
     }
   };
 
-  const startScanner = () => {
+  const startScanner = () => { 
     if (!qrCodeRef.current) {
       qrCodeRef.current = new Html5Qrcode("qr-reader");
 
@@ -46,9 +46,8 @@ export const QrScanner = () => {
         },
         (decodedText) => {
           console.log("QR Code:", decodedText);
-          setQrCodeResult(decodedText);
-          capturePreview();
-          stopScanner(); // Stop after successful scan
+          setQrCodeResult(decodedText);  
+          capturePreview();  
         },
         (errorMessage) => {
           // Ignore "NotFoundException" to prevent console spam
@@ -60,7 +59,7 @@ export const QrScanner = () => {
       .catch(console.error);
     }
   }; 
-
+ 
   useEffect(() => {
     startScanner();
     return () => {
@@ -69,6 +68,7 @@ export const QrScanner = () => {
   }, []);
   
   const capturePreview = async () => { 
+    setIsScanning(false);
     const video = document.querySelector(
       "#qr-reader video"
     ) as HTMLVideoElement | null;
@@ -80,13 +80,14 @@ export const QrScanner = () => {
       if (context) {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageDataUrl = canvas.toDataURL("image/png");
-        setImagePreview(imageDataUrl);
-        if (autoSend) {
-            handleUpload();
-        }
+        setImagePreview(imageDataUrl); 
+        // if (autoSend) {
+        //     handleUpload();
+        // }
          
       }
     }
+    stopScanner(); 
   };
 
   const handleUpload = async () => {
@@ -115,10 +116,12 @@ export const QrScanner = () => {
   const closeModal = () => {
     setMessage(""); 
     setImagePreview(null);
-    setQrCodeResult(null);
+    setQrCodeResult(null); 
+    // onBack();
   };
   
   const onBack = () => { 
+    setIsScanning(false);
     router.back();
   }
   return (
@@ -133,12 +136,12 @@ export const QrScanner = () => {
     >
       ← Back
     </button>
-      <label className="text-black">
+      {/* <label className="text-black">
         <input className="accent-pink-500" type="checkbox" checked={autoSend} onChange={(e)=>{ 
             setAutoSend(e.target.checked)
         }} />
         Auto send
-        </label>
+        </label> */}
         </div> 
       {qrCodeResult ? (
         <div className="mt-4 p-2 bg-green-100 border border-green-400 rounded hidden">
