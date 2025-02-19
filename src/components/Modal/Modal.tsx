@@ -68,7 +68,7 @@ export const Modal = ({ type = "error", message, close }: ModalProps) => {
                     className="text-base font-semibold text-gray-900"
                     id="modal-title"
                   >
-                    Error
+                    {type === ErrorType.error ? "Error" : "Success"}
                   </h3>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
