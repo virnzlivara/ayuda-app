@@ -8,9 +8,11 @@ import { Loader } from "./Loader/Loader";
 import { API } from "@/common/api";
 import { ErrorType } from "./Modal/constants";
 import { fetchWithTimeout } from "@/common/services";
+import { Email } from "./Email/email";  
+import Link from "next/link";
  
 
-const Camera = () => {
+export const Camera = () => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null); // Preview image URL
   // const [qrCodeData, setQrCodeData] = useState<string | null>(null); // Store decoded QR code data
@@ -19,8 +21,7 @@ const Camera = () => {
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   // const [screenWidth, setScreenWidth] = useState(0);
-  // const [screenHeight, setScreenHeight] = useState(0);
-
+  // const [screenHeight, setScreenHeight] = useState(0); 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -78,7 +79,7 @@ const Camera = () => {
     setShowLoading(true);
     const formData = new FormData();
     formData.append("file", file); 
-    const res = await fetchWithTimeout(
+        const res = await fetchWithTimeout(
       process.env.NEXT_PUBLIC_END_POINT + API.upload,
       {
         method: "POST",
@@ -127,13 +128,7 @@ const Camera = () => {
         </button>
 
         {previewUrl && (
-          <button
-            className="bg-[#4ebff9] py-4 px-4 text-2xl rounded-md flex justify-between items-center gap-2"
-            onClick={handleUpload}
-          >
-            {showLoading && <Loader />}
-            {showLoading ? "Sending..." : "Email this QR"}
-          </button>
+           <Email handleUpload={handleUpload} showLoading={showLoading}/>
         )}
       </div>
 
@@ -143,9 +138,10 @@ const Camera = () => {
         ) : (
           <Upload handleFileChange={handleFileChange} />
         )}
-      </div>
-    </div>
-  );
-};
-
-export default Camera;
+        </div> 
+        <Link href={"/takePicture"} className="text-black"> Scan Image</Link>
+      </div> 
+      
+      
+    );
+  }; 
