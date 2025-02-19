@@ -1,3 +1,3 @@
-const ROUTE = {
+export const ROUTE = {
     home: "/"
 }

@@ -1,6 +1,6 @@
 "use client";
-import { useState, useRef, useEffect, ChangeEvent } from "react";
-import jsQR from "jsqr"; // Import the jsQR library
+import { useState, useRef, useEffect } from "react";
+import jsQR from "jsqr";  
 import { Modal } from "./Modal/Modal";
 import { Upload } from "./Upload/Upload";
 import { Preview } from "./Preview/Preview";

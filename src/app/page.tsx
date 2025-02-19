@@ -1,6 +1,5 @@
  "use client";
-import Camera from "@/components/CameraCapture"; 
-import { Loader } from "@/components/Loader/Loader";
+import Camera from "@/components/CameraCapture";  
 
 export default function Home() { 
   return (
