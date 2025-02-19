@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 // import jsQR from "jsqr";  
 import { Modal } from "./Modal/Modal";
 import { Upload } from "./Upload/Upload";
@@ -15,7 +15,7 @@ const Camera = () => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null); // Preview image URL
   // const [qrCodeData, setQrCodeData] = useState<string | null>(null); // Store decoded QR code data
   const [message, setMessage] = useState<string>("");
-  const [messageType, setMessageType] = useState<any>(ErrorType.error);
+  const [messageType, setMessageType] = useState<string>(ErrorType.error);
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   // const [screenWidth, setScreenWidth] = useState(0);
