@@ -4,3 +4,5 @@ export const isDesktop = () => {
         /mobile|android|iphone|ipad|ipod|windows phone/i.test(userAgent)
       );
 }
+
+
