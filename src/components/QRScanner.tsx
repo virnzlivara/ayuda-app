@@ -26,7 +26,7 @@ export const QrScanner = () => {
       try {
         await qrCodeRef.current!.stop();
         qrCodeRef.current.clear(); 
-        setIsScanning(false);
+        setIsScanning(false); 
         console.log("Scanner stopped");
       } catch (error) {
         console.error("Error stopping scanner:", error);
@@ -117,7 +117,7 @@ export const QrScanner = () => {
     setMessage(""); 
     setImagePreview(null);
     setQrCodeResult(null); 
-    // onBack();
+    onBack();
   };
   
   const onBack = () => { 
