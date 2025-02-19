@@ -1,3 +1,3 @@
 export const API = {
-    upload: 'upload'
+    upload: 'scan-qr-code'
 }

@@ -78,9 +78,7 @@ const Camera = () => {
     if (!file) return setMessage("Please select a file to upload.");
     setShowLoading(true);
     const formData = new FormData();
-    formData.append("file", file);
-    debugger;
-
+    formData.append("file", file); 
     const res = await fetchWithTimeout(
       process.env.NEXT_PUBLIC_END_POINT + API.upload ?? "",
       {
