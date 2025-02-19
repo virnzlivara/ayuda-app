@@ -1,7 +1,7 @@
 import React from "react";
 import { ErrorType } from "./constants";
 type ModalProps = {
-  type: "error" | "success";
+  type: string;
   message: string;
   close: () => void;
 };
