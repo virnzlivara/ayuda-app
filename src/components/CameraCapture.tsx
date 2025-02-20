@@ -8,7 +8,6 @@ import { API } from "@/common/api";
 import { ErrorType } from "./Modal/constants";
 import { fetchWithTimeout } from "@/common/services";
 import { Email } from "./Email/email";  
-import Link from "next/link";
 import { useRouter } from "next/navigation";
  
 
