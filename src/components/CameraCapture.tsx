@@ -21,7 +21,7 @@ export const Camera = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   // const [screenWidth, setScreenWidth] = useState(0);
   // const [screenHeight, setScreenHeight] = useState(0); 
-  const route = useRouter();
+  const router = useRouter();
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -105,7 +105,7 @@ export const Camera = () => {
   // }, []);
 
   const scanImage = ()=>{
-    route.push("/takePicture");
+    router.push("/takePicture");
   }
  
 
