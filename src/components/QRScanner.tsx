@@ -15,7 +15,7 @@ export const QrScanner = () => {
   const qrCodeRef = useRef<Html5Qrcode | null>(null);
   const [, setIsScanning] = useState<boolean>(false);
   const [showLoading, setShowLoading] = useState<boolean>(false);
-  // const [autoSend, setAutoSend] = useState<boolean>(false);
+  const [autoSend, setAutoSend] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [messageType, setMessageType] = useState<string>(ErrorType.error);
   const router = useRouter(); 
@@ -42,7 +42,7 @@ export const QrScanner = () => {
         { facingMode: "environment" }, // Use rear camera by default
         {
           fps: 10, // Frames per second
-          qrbox: { width: 300, height: 300 }, // Scanner box size
+          qrbox: { width: 300, height:300 }, // Scanner box size
         },
         (decodedText) => {
           console.log("QR Code:", decodedText);
@@ -81,9 +81,9 @@ export const QrScanner = () => {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageDataUrl = canvas.toDataURL("image/png");
         setImagePreview(imageDataUrl); 
-        // if (autoSend) {
-        //     handleUpload();
-        // }
+        if (autoSend) {
+            handleUpload();
+        }
          
       }
     }
@@ -136,12 +136,12 @@ export const QrScanner = () => {
     >
       ← Back
     </button>
-      {/* <label className="text-black">
+      <label className="text-black">
         <input className="accent-pink-500" type="checkbox" checked={autoSend} onChange={(e)=>{ 
             setAutoSend(e.target.checked)
         }} />
         Auto send
-        </label> */}
+        </label>
         </div> 
       {qrCodeResult ? (
         <div className="mt-4 p-2 bg-green-100 border border-green-400 rounded hidden">
