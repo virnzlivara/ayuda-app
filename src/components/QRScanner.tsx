@@ -132,7 +132,7 @@ export const QrScanner = () => {
         <div className="flex justify-between">
       <button
       onClick={onBack}
-      className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md transition-all duration-300"
+      className="px-4 py-2 mb-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg shadow-md transition-all duration-300"
     >
       ← Back
     </button>

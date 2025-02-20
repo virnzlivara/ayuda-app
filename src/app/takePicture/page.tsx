@@ -1,17 +1,15 @@
 "use client";  
-import { QrScanner } from '@/components/QRScanner';
-import React from 'react' 
+import { Footer } from '@/components/Footer/Footer';  
+import { Head } from '@/components/Head/head';
+import { QrScanner } from '@/components/QRScanner';  
 
 const page = () => {
   return (
-    <div>  
-      <div className='flex justify-center bg-[#ef2139] py-2'>
-        <img src="logo.jpeg" height="auto" width="150px" alt="logo"/>
-      </div> 
+    <div>   
+      <Head/>
       <QrScanner/>
-      <footer className="flex justify-center text-black">
-        Copyright © 2025 v1.0.0
-       </footer> 
+      <Footer />
+       
     </div>
   )
 }

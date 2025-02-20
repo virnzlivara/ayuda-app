@@ -1,17 +1,14 @@
- "use client";
-import {Camera} from "@/components/CameraCapture";  
+"use client";
+import { Camera } from "@/components/CameraCapture";
+import { Footer } from "@/components/Footer/Footer";   
+import { Head } from "@/components/Head/head";
 
-export default function Home() { 
+export default function Home() {
   return (
-    <div > 
-      <div className='flex justify-center bg-[#ef2139] py-2'>
-        <img src="logo.jpeg" height="auto" width="150px" alt="logo"/>
-      </div> 
-        <Camera  />
-       
-       <footer className="flex justify-center text-black">
-        Copyright © 2025 v1.0.0
-       </footer>  
+    <div> 
+      <Head/>
+      <Camera /> 
+      <Footer />
     </div>
   );
 }

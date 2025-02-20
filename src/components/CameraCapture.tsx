@@ -9,6 +9,7 @@ import { ErrorType } from "./Modal/constants";
 import { fetchWithTimeout } from "@/common/services";
 import { Email } from "./Email/email";  
 import Link from "next/link";
+import { useRouter } from "next/navigation";
  
 
 export const Camera = () => {
@@ -21,6 +22,7 @@ export const Camera = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   // const [screenWidth, setScreenWidth] = useState(0);
   // const [screenHeight, setScreenHeight] = useState(0); 
+  const route = useRouter();
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -102,6 +104,10 @@ export const Camera = () => {
   //     setScreenHeight(window.screen.height);
   //   }
   // }, []);
+
+  const scanImage = ()=>{
+    route.push("/takePicture");
+  }
  
 
   return (
@@ -118,6 +124,7 @@ export const Camera = () => {
         onChange={handleFileChange}
       />
       <div className="flex justify-between w-full">
+        <div className="gap-2 flex">
         <button
           className={`${!showLoading ? 'bg-[#1b4198] ': 'bg-[#939598]'}   py-4 px-4 text-2xl rounded-md`}
           onClick={triggerFileInput}
@@ -125,6 +132,15 @@ export const Camera = () => {
         >
           Choose a file
         </button>
+
+        <button
+          className={`${!showLoading ? 'bg-[#1b4198] ': 'bg-[#939598]'}   py-4 px-4 text-2xl rounded-md`}
+          onClick={scanImage}
+          disabled={showLoading}
+        >
+          Scan QR
+        </button>
+        </div>
 
         {previewUrl && (
            <Email handleUpload={handleUpload} showLoading={showLoading}/>
@@ -137,8 +153,7 @@ export const Camera = () => {
         ) : (
           <Upload handleFileChange={handleFileChange} />
         )}
-        </div> 
-        <Link href={"/takePicture"} className="text-black"> Scan Image</Link>
+        </div>  
       </div> 
       
       
